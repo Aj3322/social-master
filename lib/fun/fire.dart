@@ -1,5 +1,6 @@
 
 
+import 'dart:developer';
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -39,8 +40,13 @@ class FireStoreMethods {
     return res;
   }
 
-  Future<String> likePost(String postId, String uid, List likes) async {
+  Future<bool> likePost(String postId, String uid, List likes) async {
     String res = "Some error occurred";
+    log(likes.toString());
+    log('POst');
+    log(uid);
+    log(postId);
+
     try {
       if (likes.contains(uid)) {
         // if the likes list contains the user uid, we need to remove it
@@ -57,7 +63,8 @@ class FireStoreMethods {
     } catch (err) {
       res = err.toString();
     }
-    return res;
+    log(res);
+    return true;
   }
 
   // Post comment

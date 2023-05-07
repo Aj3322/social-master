@@ -49,43 +49,49 @@ class _home_pgState extends State<home_pg> {
                   child: ListView(
                     scrollDirection: Axis.horizontal,
                     children: [
-                      Container(
-                        width: 90,
-                        height: 100,
-                        color: Colors.white10,
-                        child:
-                        IconButton(
-                          icon: Icon(Icons.add,
-                            color: Colors.white,
+                      Padding(
+                        padding: const  EdgeInsets.only(bottom: 10,left: 10,top: 4),
+                        child: ClipRRect(
+                          borderRadius:const BorderRadius.all(Radius.circular(35)),
+                          child: Container(
+                            width: 65,
+                            height: 60,
+                            color: Colors.white30,
+                            child:
+                            IconButton(
+                              icon: Icon(Icons.add,
+                                color: Colors.white,
+                              ),
+                              onPressed: (){},
+                            ),
                           ),
-                          onPressed: (){},
                         ),
                       ),
                       SizedBox(
                         width: 20,
                       ),
-                      Container(
-                        width: 90,
-                        height: 100,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/adebfbf2-4b4e-4f79-9457-3634e23b5bc4.jpg"),
-                                fit: BoxFit.fill
-                            )
-                        ),
+                      CircleAvatar(
+                        radius: 32,
+                        backgroundImage: AssetImage("assets/adebfbf2-4b4e-4f79-9457-3634e23b5bc4.jpg") ,
                       ),
                       SizedBox(
                         width: 20,
                       ),
-                      Container(
-                        width: 90,
-                        height: 100,
-                        decoration: BoxDecoration(
-                            image: DecorationImage(
-                                image: AssetImage("assets/480584e3-d1da-420a-ad37-e0de81a09993.jpg"),
-                                fit: BoxFit.fill
-                            )
-                        ),
+                      CircleAvatar(
+                        radius: 32,
+                        backgroundImage: AssetImage("assets/480584e3-d1da-420a-ad37-e0de81a09993.jpg") ,
+                      ),
+                      SizedBox(width: 20,),
+                      CircleAvatar(
+                        radius: 32,
+                        backgroundImage: AssetImage("assets/adebfbf2-4b4e-4f79-9457-3634e23b5bc4.jpg") ,
+                      ),
+                SizedBox(
+                  width: 20,
+                ),
+                      CircleAvatar(
+                        radius: 32,
+                        backgroundImage: AssetImage("assets/480584e3-d1da-420a-ad37-e0de81a09993.jpg") ,
                       ),
                     ],
                   ),

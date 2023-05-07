@@ -54,8 +54,12 @@ class _PostCardState extends State<PostCard> {
   //     );
   //   }
   // }
-
-
+  void likepost()async{
+    await FireStoreMethods().likePost(widget.snap['postId'],FirebaseAuth.instance.currentUser!.uid.toString(), widget.snap['likes']);
+    setState(() {
+      isLikeAnimating = true;
+    });
+  }
   @override
   Widget build(BuildContext context) {
     // final Users user = Provider.of<UserProvider>(context).getUser;
@@ -142,28 +146,15 @@ class _PostCardState extends State<PostCard> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(20),
-                    child: GestureDetector(
-                      onDoubleTap: ()async{
-                        await FireStoreMethods().likePost(widget.snap['postId'], myUid, widget.snap['likes'],);
-                        setState(() {
-                          isLikeAnimating = true;
-                        });
-                      },
-                      child: Stack(
-                        alignment: Alignment.center,
-                        children: [
-                          Container(
-                            constraints:BoxConstraints(
-                              minHeight: 100,
-                              maxHeight: MediaQuery.of(context).size.height  * 0.4,
-                            ),
-                            width:width*0.90,
-                            child: Image.network(
-                              widget.snap['postUrl'],
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ],
+                    child: Container(
+                      constraints:BoxConstraints(
+                        minHeight: 100,
+                        maxHeight: MediaQuery.of(context).size.height  * 0.4,
+                      ),
+                      width:width*0.90,
+                      child: Image.network(
+                        widget.snap['postUrl'],
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
@@ -173,46 +164,49 @@ class _PostCardState extends State<PostCard> {
                 padding: const EdgeInsets.only(left: 40,right: 10),
                 child: Row(
                   children: [
-                    Container(
-                      child:
-                      LikeButton(
-                        size: 20,
-                        circleColor:
-                        CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
-                        bubblesColor: BubblesColor(
-                          dotPrimaryColor: Color(0xff33b5e5),
-                          dotSecondaryColor: Color(0xff0099cc),
+                    GestureDetector(
+                      onTap: likepost,
+                      child: Container(
+                        child:
+                        LikeButton(
+                          size: 20,
+                          circleColor:
+                          CircleColor(start: Color(0xff00ddff), end: Color(0xff0099cc)),
+                          bubblesColor: BubblesColor(
+                            dotPrimaryColor: Color(0xff33b5e5),
+                            dotSecondaryColor: Color(0xff0099cc),
+                          ),
+                          likeBuilder: (bool isLiked) {
+                            return Icon(
+                              Icons.favorite,
+                              color: isLiked ? Colors.red : Colors.grey,
+                              size: 20,
+                            );
+                          },
+                          likeCount: 0,
+                          countBuilder: (int? count, bool isLiked, String text) {
+                            var color = isLiked ? Colors.deepPurpleAccent : Colors.grey;
+                            Widget result;
+                            if (count == 0) {
+                              result = Text(
+                                "like",
+                                style: TextStyle(color: color),
+                              );
+                            } else
+                              result = Text(
+                                '${widget.snap['likes'].length}',
+                                style: TextStyle(color: color),
+                              );
+                            return result;
+                          },
                         ),
-                        likeBuilder: (bool isLiked) {
-                          return Icon(
-                            Icons.favorite,
-                            color: isLiked ? Colors.red : Colors.grey,
-                            size: 20,
-                          );
-                        },
-                        likeCount: 0,
-                        countBuilder: (int? count, bool isLiked, String text) {
-                          var color = isLiked ? Colors.deepPurpleAccent : Colors.grey;
-                          Widget result;
-                          if (count == 0) {
-                            result = Text(
-                              "like",
-                              style: TextStyle(color: color),
-                            );
-                          } else
-                            result = Text(
-                              text,
-                              style: TextStyle(color: color),
-                            );
-                          return result;
-                        },
                       ),
                     ),
 
                     SizedBox(width: 30,),
                     Container(
-                      child: Icon(Icons.insert_comment_rounded,
-                        color: Colors.white,
+                      child: IconButton(
+                        color: Colors.white, onPressed: () { likepost();}, icon: Icon(Icons.insert_comment_rounded),
                       ),
 
                     ),

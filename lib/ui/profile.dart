@@ -1,5 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:social/login%20screen/login.dart';
+
+import '../fun/auth.dart';
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({Key? key}) : super(key: key);
 
@@ -9,6 +13,53 @@ class ProfileScreen extends StatefulWidget {
 
 class _ProfileScreenState extends State<ProfileScreen> {
   @override
+
+  var userData = {};
+  String postData = '';
+  int postLen = 0;
+  int followers = 0;
+  int following = 0;
+  bool isFollowing = false;
+  bool isLoading = false;
+
+  @override
+  void initState() {
+    super.initState();
+    getData();
+  }
+
+  getData() async {
+    setState(() {
+      isLoading=true;
+    });
+    try {
+      var userSnap = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      // get post lENGTH
+      var postSnap = await FirebaseFirestore.instance
+          .collection('posts')
+          .where('uid', isEqualTo:FirebaseAuth.instance.currentUser!.uid)
+          .get();
+
+      postLen = postSnap.docs.length;
+      userData = userSnap.data()!;
+      followers = userSnap.data()!['followers'].length;
+      following = userSnap.data()!['following'].length;
+      isFollowing = userSnap
+          .data()!['followers']
+          .contains(FirebaseAuth.instance.currentUser!.uid);
+    } catch (e) {
+      showSnakBar(e.toString(), context);
+    }
+    setState(() {
+      isLoading = false;
+    });
+  }
+
+
   void _showSignOutDialog(BuildContext context) {
     showDialog(
       context: context,
@@ -39,7 +90,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       appBar: AppBar(
         backgroundColor:  Colors.black26,
         leading: Icon(Icons.lock_open),
-        title: Text("kanika123"),
+        title: Text(userData['username']??'name'),
           actions: [
       IconButton(
       icon: Icon(Icons.menu),
@@ -49,7 +100,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       }
     ),]
      ),
-      body: SingleChildScrollView(
+      body:isLoading?CircularProgressIndicator(): SingleChildScrollView(
         scrollDirection: Axis.vertical,
         child: Container(child: Column(
           children: [
@@ -69,7 +120,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 child: Image(
                   width: 90,
                   height: 90,
-                  image: AssetImage("assets/img.jpg"),
+                  image: NetworkImage(userData['photourl']),
                   fit: BoxFit.fill,
                 ),
               ),
@@ -79,11 +130,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         ),
               SizedBox(width: 40,),
-              Container(child: Text("23",style: TextStyle(fontSize: 20,color: Colors.white),),),
+              Container(child: Text(postLen.toString(),style: TextStyle(fontSize: 20,color: Colors.white),),),
               SizedBox(width: 40,),
-              Container(child: Text("53",style: TextStyle(fontSize: 20,color: Colors.white),),),
+              Container(child: Text(followers.toString(),style: TextStyle(fontSize: 20,color: Colors.white),),),
               SizedBox(width: 40,),
-              Container(child: Text("73",style: TextStyle(fontSize: 20,color: Colors.white),),),
+              Container(child: Text(following.toString(),style: TextStyle(fontSize: 20,color: Colors.white),),),
             ],
           ),
             Row(children: [SizedBox(width: 140,),
