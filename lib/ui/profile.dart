@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -52,7 +54,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           .data()!['followers']
           .contains(FirebaseAuth.instance.currentUser!.uid);
     } catch (e) {
-      showSnakBar(e.toString(), context);
+      log(e.toString());
     }
     setState(() {
       isLoading = false;

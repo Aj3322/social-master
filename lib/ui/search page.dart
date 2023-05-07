@@ -1,6 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:social/ui/profile.dart';
 class search extends StatefulWidget {
   const search({Key? key}) : super(key: key);
 
@@ -36,39 +35,38 @@ class _searchState extends State<search> {
 
         ),
       body:
-      SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: Column(
-          children: [
-            Container(
-              width: 500,
-              height: 50,
-
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(10),
-                color: Colors.white54
-              ),
-              child:TextFormField(
-                controller: searchController,
-                decoration: InputDecoration(
-                  hintText: ("search post"),
-                  hintStyle: TextStyle(
-                    fontWeight: FontWeight.normal
-                  ),
-
-                  prefixIcon: Icon(Icons.search,
-                    color: Colors.white,
-                  )
-                ),
-                onFieldSubmitted: (String _) {
-                  setState(() {
-                    isShowUsers = true;
-                  });
-                  print(_);
-                },
-              ) ,
+      Stack(
+        children: [
+          Container(
+            width: 500,
+            height: 50,
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(10),
+              color: Colors.white54
             ),
-         Container(
+            child:TextFormField(
+              controller: searchController,
+              decoration: InputDecoration(
+                hintText: ("search post"),
+                hintStyle: TextStyle(
+                  fontWeight: FontWeight.normal
+                ),
+
+                prefixIcon: Icon(Icons.search,
+                  color: Colors.white,
+                )
+              ),
+              onFieldSubmitted: (String _) {
+                setState(() {
+                  isShowUsers = true;
+                });
+                print(_);
+              },
+            ) ,
+          ),
+       Padding(
+         padding: const EdgeInsets.only(top: 55),
+         child: Container(
            child:  isShowUsers
                ? FutureBuilder(
              future: FirebaseFirestore.instance
@@ -76,8 +74,7 @@ class _searchState extends State<search> {
                  .where(
                'username',
                isGreaterThanOrEqualTo: searchController.text,
-             )
-                 .get(),
+             ).get(),
              builder: (context, snapshot) {
                if (!snapshot.hasData) {
                  return const Center(
@@ -90,7 +87,7 @@ class _searchState extends State<search> {
                    return ListTile(
                      leading: CircleAvatar(
                        backgroundImage: NetworkImage(
-                         (snapshot.data! as dynamic).docs[index]['photoUrl'],
+                         (snapshot.data! as dynamic).docs[index]['photourl'],
                        ),
                        radius: 22,
                      ),
@@ -103,112 +100,117 @@ class _searchState extends State<search> {
                );
              },
            )
-               :Column(
-             children: [
-               SizedBox(
-                 height: 10,
-               ),
-               Row(
-                 children: [Container(
-                   width: 120,
-                   height: 200,
-                   decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(10),
-                       image: DecorationImage(
-                           image: AssetImage("assets/images (1).jpg"),
-                           fit: BoxFit.fill
-
-                       )
-
+               :
+           Container(
+             child: SingleChildScrollView(
+               child: Column(
+                 children: [
+                   SizedBox(
+                     height: 10,
                    ),
-                 ),
-                   SizedBox(width: 10,),
-                   Container(
-                     width: 210,
-                     height: 200,
-                     decoration: BoxDecoration(
-                         borderRadius: BorderRadius.circular(10),
-                         image: DecorationImage(
-                             image: AssetImage("assets/photo-1618588507085-c79565432917.jpg"),
-                             fit: BoxFit.fill
+                   Row(
+                     children: [Container(
+                       width: 120,
+                       height: 200,
+                       decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(10),
+                           image: DecorationImage(
+                               image: AssetImage("assets/images (1).jpg"),
+                               fit: BoxFit.fill
 
-                         )
+                           )
 
+                       ),
                      ),
-                   ),
+                       SizedBox(width: 10,),
+                       Container(
+                         width: 210,
+                         height: 200,
+                         decoration: BoxDecoration(
+                             borderRadius: BorderRadius.circular(10),
+                             image: DecorationImage(
+                                 image: AssetImage("assets/photo-1618588507085-c79565432917.jpg"),
+                                 fit: BoxFit.fill
 
+                             )
+
+                         ),
+                       ),
+
+                     ],
+                   ),
+                   SizedBox(height: 10,),
+                   Row(
+                     children: [Container(
+                       width: 120,
+                       height: 200,
+                       decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(10),
+                           image: DecorationImage(
+                               image: AssetImage("assets/480584e3-d1da-420a-ad37-e0de81a09993.jpg"),
+                               fit: BoxFit.fill
+
+                           )
+
+                       ),
+                     ),
+                       SizedBox(width: 10,),
+                       Container(
+                         width: 210,
+                         height: 200,
+                         decoration: BoxDecoration(
+                             borderRadius: BorderRadius.circular(10),
+                             image: DecorationImage(
+                                 image: AssetImage("assets/wer.jpg"),
+                                 fit: BoxFit.fill
+
+                             )
+
+                         ),
+                       ),
+
+                     ],
+                   ),
+                   SizedBox(height: 10,),
+                   Row(
+                     children: [Container(
+                       width: 120,
+                       height: 200,
+                       decoration: BoxDecoration(
+                           borderRadius: BorderRadius.circular(10),
+                           image: DecorationImage(
+                               image: AssetImage("assets/download.jpg"),
+                               fit: BoxFit.fill
+
+                           )
+
+                       ),
+                     ),
+                       SizedBox(width: 10,),
+                       Container(
+                         width: 210,
+                         height: 200,
+                         decoration: BoxDecoration(
+                             borderRadius: BorderRadius.circular(10),
+                             image: DecorationImage(
+                                 image: AssetImage("assets/images (17).jpeg"),
+                                 fit: BoxFit.fill
+
+                             )
+
+                         ),
+                       ),
+
+                     ],
+                   ),
                  ],
                ),
-               SizedBox(height: 10,),
-               Row(
-                 children: [Container(
-                   width: 120,
-                   height: 200,
-                   decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(10),
-                       image: DecorationImage(
-                           image: AssetImage("assets/480584e3-d1da-420a-ad37-e0de81a09993.jpg"),
-                           fit: BoxFit.fill
-
-                       )
-
-                   ),
-                 ),
-                   SizedBox(width: 10,),
-                   Container(
-                     width: 210,
-                     height: 200,
-                     decoration: BoxDecoration(
-                         borderRadius: BorderRadius.circular(10),
-                         image: DecorationImage(
-                             image: AssetImage("assets/wer.jpg"),
-                             fit: BoxFit.fill
-
-                         )
-
-                     ),
-                   ),
-
-                 ],
-               ),
-               SizedBox(height: 10,),
-               Row(
-                 children: [Container(
-                   width: 120,
-                   height: 200,
-                   decoration: BoxDecoration(
-                       borderRadius: BorderRadius.circular(10),
-                       image: DecorationImage(
-                           image: AssetImage("assets/download.jpg"),
-                           fit: BoxFit.fill
-
-                       )
-
-                   ),
-                 ),
-                   SizedBox(width: 10,),
-                   Container(
-                     width: 210,
-                     height: 200,
-                     decoration: BoxDecoration(
-                         borderRadius: BorderRadius.circular(10),
-                         image: DecorationImage(
-                             image: AssetImage("assets/images (17).jpeg"),
-                             fit: BoxFit.fill
-
-                         )
-
-                     ),
-                   ),
-
-                 ],
-               ),
-             ],
+             ),
            ),
-         )
+         ),
+       )
 
-          ],
-        ),
+        ],
       )
       );
 
