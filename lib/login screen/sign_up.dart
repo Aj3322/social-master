@@ -37,7 +37,7 @@ class _signState extends State<sign> {
      Uint8List? im = await pickImage(ImageSource.gallery);
      setState(() {
        _image=im;
-
+       _isLoading = false;
      });
   }
 
@@ -200,14 +200,19 @@ class _signState extends State<sign> {
                   height: 20,
                 ),
                 ElevatedButton(onPressed: ()async{
-                  String res = await AuthMethod().SignUpUser(email: email.text,
-                    passward: password.text,
-                    username: name.text,
-                    bio: bio.text,
-
-                );
-                  print(res);
-
+                  if(_image!=null) {
+                    String res = await AuthMethod().SignUpUser(
+                      email: email.text,
+                      passward: password.text,
+                      username: name.text,
+                      bio: bio.text,
+                      file: _image!,
+                    );
+                    Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HOME()));
+                    print(res);
+                  }else{
+                    showSnakBar('Plz Select a image', context);
+                  }
                   },
                     child: Text("Sign up")),
 

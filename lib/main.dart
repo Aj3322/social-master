@@ -24,7 +24,9 @@ class MyApp extends StatelessWidget {
     return  MaterialApp(
       debugShowCheckedModeBanner: false,
 
-
+      theme: ThemeData(
+        backgroundColor: Colors.black
+      ),
         home:StreamBuilder(
          stream: FirebaseAuth.instance.authStateChanges(),
          builder: (context, snapshot) {
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
              );
            }
 
-           return const HOME();
+           return const login();
          },
        ),
     );

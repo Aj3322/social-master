@@ -7,6 +7,7 @@ import 'package:cupertino_icons/cupertino_icons.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:social/fun/storage.dart';
 import 'package:social/fun/upload_img.dart';
+import 'package:social/ui/add_post.dart';
 import 'package:social/ui/notify.dart';
 import 'package:social/ui/search%20page.dart';
 import 'package:uuid/uuid.dart';
@@ -103,7 +104,7 @@ class _HOMEState extends State<HOME> {
 
       floatingActionButton: FloatingActionButton(
         onPressed: ()  {
-
+         Navigator.of(context).push(MaterialPageRoute(builder: (context)=>AddPostScreen()));
         },
         backgroundColor: Colors.white,
         mini: true,

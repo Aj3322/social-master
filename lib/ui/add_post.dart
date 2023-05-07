@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'dart:typed_data';
@@ -128,6 +130,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   }
 
   getData() async {
+    log(FirebaseAuth.instance.currentUser!.uid.toString());
     setState(() {
       isLoading=true;
     });
@@ -151,6 +154,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
   Widget build(BuildContext context) {
 
     return  Scaffold(
+      backgroundColor: Colors.black,
       appBar: AppBar(
         elevation: 0,
         leadingWidth: 20,
@@ -158,19 +162,19 @@ class _AddPostScreenState extends State<AddPostScreen> {
           onPressed: clearImage,
           icon: const Icon(Icons.arrow_back_sharp),
         ),
-        title: const Text('Post to',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Color(0xFF836F71),),),
+        title: const Text('Post to',style: TextStyle(fontSize: 30,fontWeight: FontWeight.bold,color: Colors.white,),),
         centerTitle: false,
         actions: [
           TextButton(
-            onPressed: () => postImage( user['username'], user['uid'],user['photoUrl']),
-            child: const Text('Post', style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold,fontSize: 16,),),
+            onPressed: () => postImage( user['username'], user['uid'],user['photourl']),
+            child: const Text('Post', style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold,fontSize: 16,),),
           ),
         ],
       ),
       body: _file==null? Center(
         child: IconButton(
           onPressed: () => _selectImage(context) ,
-          icon: const Icon(Icons.upload , size: 54,),
+          icon: const Icon(Icons.upload , size: 54,color: Colors.white,),
         ),
       ):Column(
         children: [
@@ -181,7 +185,7 @@ class _AddPostScreenState extends State<AddPostScreen> {
             children: [
               CircleAvatar(
                 backgroundImage: NetworkImage(
-                    user['photoUrl']
+                    user['photourl']??''
                 ),
               ),
               SizedBox(

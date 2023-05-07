@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:social/fun/storage.dart';
+import 'package:social/fun/storage2.dart';
 class AuthMethod {
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
@@ -14,7 +15,7 @@ class AuthMethod {
     required String passward,
     required String username,
     required String bio,
-    // required Uint8List file,
+    required Uint8List file,
 
 
   }) async {
@@ -25,7 +26,7 @@ class AuthMethod {
         UserCredential cred = await _auth.createUserWithEmailAndPassword(
             email: email, password: passward);
         print(cred.user!.uid);
-        // String photourl= await    StorageMethod().uploadImageToStorage('profilepics',file, false);
+        String photourl= await    StorageMethod().uploadImageToStorage('profilepics',file, false);
         await _firestore.collection('users').doc(cred.user!.uid).set({
           'username': username,
           'uid': cred.user!.uid,
@@ -33,7 +34,7 @@ class AuthMethod {
           'bio': bio,
           'follower': [],
           'following': [],
-          // 'photourl': photourl
+           'photourl': photourl
         });
         // await _firestore.collection("users").add({
         //   'username': username,
